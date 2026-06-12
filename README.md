@@ -1,46 +1,120 @@
-# Todo List – Three Matters Labs
+# Take-Home: Todo List (Vanilla JS)
 
-A lightweight, dependency-free todo list app built with vanilla HTML, CSS, and JavaScript. Supports one level of subtasks, drag-and-drop reordering, hash-based filtering, and persistence via `localStorage`.
+**Goal**: Build a todo app with **1-level nested drag & drop**, filters, and persistence — **no frameworks, no libraries**.
 
-## Features
+---
 
-- **Add tasks** — type in the input box and press `Enter`.
-- **Subtasks** — click the ➕ icon on any top-level task to add a nested subtask (one level deep).
-- **Complete tasks** — check the box to mark a task done. Marking a parent task complete cascades to all its subtasks.
-- **Delete tasks** — click 🗑️ to remove a task. Deleting a parent also removes its subtasks.
-- **Filters** — switch between `#all`, `#active`, and `#completed` views. The active filter is reflected in the URL hash, so it's bookmarkable and shareable.
-- **Drag and drop** — reorder tasks, turn a task into a subtask, promote a subtask to top-level, or regroup subtasks under a different parent, all while preserving the 1-level nesting rule.
-- **Persistence** — all tasks are saved automatically to `localStorage` and restored on page reload.
+#  Todo App
 
-## Getting Started
+A responsive, single-page **Nested Todo App** built with vanilla JavaScript, featuring **1-level nesting**, **drag & drop**, **filters**, and **persistent storage**.
 
-No build steps or dependencies required.
+---
 
-1. Clone or download this repository.
-2. Open `index.html` in your browser.
+## Overview
 
-That's it — the app runs entirely client-side.
+This project allows users to manage tasks and subtasks in an intuitive interface.
+You can add todos, nest subtasks, reorder items with drag-and-drop, and filter by completion status.
+All data is saved in **localStorage** for persistence between sessions.
 
-## Project Structure
+---
+
+### Tech Stack
+
+-   HTML
+-   CSS
+-   JavaScript (Vanilla)
+
+##  Core Requirements (Must-Have)
+
+### 1. Add Todos
+
+-   Add **top-level todos** by typing into an input and pressing **Enter**.
+-   Each todo has a button or icon to **add a sub-task** beneath it.
+-   Sub-tasks are displayed visually indented below their parent.
+    Example
 
 ```
-.
-├── index.html   # App markup
-├── style.css    # Styling
-└── app.js       # App logic (state, rendering, drag & drop, persistence)
+-   Buy groceries
+    -   Buy milk
+    -   Buy eggs
+-   Read a book
+    -   Chapter 1: Introduction
 ```
 
-## How It Works
+---
 
-- **State**: Todos are stored as a flat array of objects, each with `id`, `text`, `completed`, and `parentId` (`null` for top-level tasks, or the parent's `id` for subtasks).
-- **Rendering**: The list is fully re-rendered on every state change. Parent tasks are shown if they match the active filter, or if any of their subtasks do (so a visible subtask always has its parent for context).
-- **Drag and drop**: Uses the native HTML5 Drag and Drop API. Dropping a task onto another applies a set of rules to keep the hierarchy at most one level deep — for example, dropping a subtask onto a parent makes it a subtask of that parent, and dropping a parent onto another parent's subtask demotes it to a sibling subtask while its own subtasks are promoted to top-level.
-- **Persistence**: Todos are serialized to JSON and saved under the `three_matters_todos` key in `localStorage`.
+### 2. Drag & Drop (1-Level Nested)
 
-## Browser Support
+Uses the **HTML5 Drag API** (`draggable`, `dragstart`, `dragover`, `drop`) to reorder tasks.
 
-Works in any modern browser that supports the HTML5 Drag and Drop API, `localStorage`, and ES6 JavaScript (Chrome, Firefox, Edge, Safari).
+-   **Drag parent task:** Moves along with all its sub-tasks.
+-   **Drag sub-task:** Can be dropped under a different parent or promoted to top-level.
+-   **Visual indent:** Sub-tasks appear slightly indented for clarity.
 
-## License
+---
 
-This project is provided as-is for personal or educational use. Feel free to fork and adapt it.
+### 3. Mark Complete / Delete
+
+-   Each todo has a **checkbox** to mark completion.
+-   Completed tasks are shown with a **strikethrough**.
+-   A **delete icon** removes a task (and its sub-tasks, if any).
+
+---
+
+### 4. Filter Tabs
+
+Toggle between task views:
+
+-   **All**
+-   **Active**
+-   **Completed**
+
+When filters are selected, the **URL hash** updates automatically:
+
+-   `#all` → Show all tasks
+-   `#active` → Show uncompleted tasks
+-   `#completed` → Show completed tasks
+
+---
+
+### 5. Persistence (Local Storage)
+
+-   Todos are **saved to localStorage** on every change.
+-   On refresh, data is automatically reloaded.
+
+---
+
+### 6. Responsive Design
+
+-   Works on both **desktop and mobile**.
+-   Touch drag-and-drop is optional but considered a bonus.
+
+---
+
+## 📦 Deliverables
+
+-   **Live Demo:** Hosted on [Vercel](https://vercel.com) / [Netlify](https://www.netlify.com) / [Github Pages](https://github.com)
+-   **GitHub Repository:** With clean, descriptive commit messages and organized code.
+
+---
+
+## 🪞 Reflections
+
+### Challenges Faced
+
+-   **Designing the drag-and-drop rules for 1-level nesting.** The trickiest part was handling every combination of drag source and drop target (parent → parent, parent → subtask, subtask → parent, subtask → subtask) while guaranteeing the data never ends up more than one level deep. Cases like dropping a parent onto its *own* subtask needed special handling — the subtasks have to be "orphaned" back to the top level rather than creating a nesting loop.
+-   **Keeping subtasks grouped with their parent during reordering.** Since todos are stored as a flat array, moving a parent task means its subtasks have to be pulled out and re-spliced alongside it so the underlying array order stays consistent with what's rendered.
+-   **Deciding how to display a subtask when its parent is filtered out.** For example, under the "Active" filter, a completed parent with an active subtask would otherwise disappear along with context for that subtask. The solution was to render the parent in a muted "context-only" state whenever any of its subtasks are visible, even if the parent itself doesn't match the filter.
+-   **Keeping filter state in sync with the URL hash.** Supporting bookmarkable/shareable filter links meant listening for `hashchange` events as well as button clicks, and making sure both stay in sync without causing redundant re-renders.
+-   **Preventing XSS from user-entered text.** Since todo text is inserted via `innerHTML` for convenience, all user input is escaped before rendering to avoid script injection through task names.
+
+### Suggestions for Improvement
+
+-   **Touch support for drag-and-drop.** The current implementation relies on the HTML5 Drag and Drop API, which doesn't work well on mobile/touch devices. Adding pointer-event-based dragging (or a library-free touch polyfill) would make reordering usable on phones and tablets.
+-   **Editing existing todos.** Currently there's no way to edit the text of a todo or subtask after creation — only add, complete, and delete. Inline editing (e.g., double-click to edit) would be a natural addition.
+-   **Replacing `prompt()` for adding subtasks.** Using the native `prompt()` dialog works but feels dated and isn't very accessible. An inline input field that appears under the parent task would be more consistent with the rest of the UI.
+-   **Drag-and-drop visual feedback.** Adding a placeholder/drop-indicator line to show exactly where an item will land (rather than just highlighting the target) would make reordering feel more precise.
+-   **Undo for deletions.** Deleting a parent task also deletes all its subtasks with no confirmation — a brief "Undo" toast would help prevent accidental data loss.
+-   **Animations for list changes.** Subtle transitions when items are added, removed, or reordered would make the UI feel more polished.
+-   **Automated tests.** The app currently has no test coverage. Unit tests for the drag-and-drop reparenting logic in particular would help catch regressions, since that logic has many edge cases.
+-   **Multiple lists or due dates.** Beyond the take-home requirements, supporting multiple todo lists, due dates, or priority levels could make the app more useful for real-world task management.
