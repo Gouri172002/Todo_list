@@ -91,14 +91,14 @@ When filters are selected, the **URL hash** updates automatically:
 
 ---
 
-## 📦 Deliverables
+##  Deliverables
 
 -   **Live Demo:** Hosted on [Vercel](https://vercel.com)
 -   **GitHub Repository:** With clean, descriptive commit messages and organized code.
 
 ---
 
-## 🪞 Reflections
+##  Reflections
 
 ### Challenges Faced
 
