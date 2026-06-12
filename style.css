@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: system-ui, sans-serif;
+    background: #f5f5f5;
+    padding: 1rem;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    margin-bottom: 1rem;
+}
+#new-todo {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.filters {
+    margin-bottom: 1rem;
+}
+.filters button {
+    margin-right: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    background: #eee;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.filters button.active {
+    background: #007bff;
+    color: #fff;
+}
+#todo-list {
+    list-style: none;
+}
+.todo {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+.todo.dragging {
+    opacity: 0.5;
+}
+.todo input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+.todo .text {
+    flex: 1;
+}
+.todo .subtask-btn {
+    margin-left: auto;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.todo .delete {
+    cursor: pointer;
+    color: #e00;
+}
+.subtask {
+    margin-left: 2rem;
+}

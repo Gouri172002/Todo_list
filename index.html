@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Todo List – Three Matters Labs</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Todo List</h1>
+
+            <!-- Add todo -->
+            <input
+                id="new-todo"
+                placeholder="What needs to be done?"
+                autofocus
+            />
+
+            <!-- Filter tabs -->
+            <div class="filters">
+                <button data-filter="all" class="active">#all</button>
+                <button data-filter="active">#active</button>
+                <button data-filter="completed">#completed</button>
+            </div>
+
+            <!-- Todo list -->
+            <ul id="todo-list"></ul>
+
+            <!-- Empty state -->
+            <p id="empty-state" class="empty-state"></p>
+        </div>
+
+        <script src="app.js"></script>
+    </body>
+</html>
